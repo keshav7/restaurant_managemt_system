@@ -1,0 +1,50 @@
+buildscript {
+	ext {
+		springBootVersion = '2.0.0.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.aether'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	maven { url 'http://10.85.59.116/artifactory/v1.0/artifacts/libs-snapshots-local' }
+	maven { url 'http://10.85.59.116/artifactory/v1.0/artifacts/libs-release-local' }
+	mavenCentral()
+}
+
+
+dependencies {
+	compile("org.springframework.boot:spring-boot-starter-web")
+	compile group: 'com.ekart.transport', name: 'common-datatypes', version: '1.0.0.9-SNAPSHOT'
+
+	// JPA Data (We are going to use Repositories, Entities, Hibernate, etc...)
+	compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	// Use MySQL Connector-J
+	compile 'mysql:mysql-connector-java'
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+
+	//Swagger
+	compile group: 'io.springfox', name: 'springfox-swagger-ui', version: springfox_version
+	compile(group: 'io.springfox', name: 'springfox-swagger2', version: springfox_version) {
+		exclude module: 'mapstruct'
+		exclude module: 'com.fasterxml.jackson.core'
+	}
+
+	// Lombok
+	compile group: 'org.projectlombok', name: 'lombok', version: lombok_version
+}
